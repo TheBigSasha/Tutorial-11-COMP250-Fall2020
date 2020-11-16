@@ -1,5 +1,6 @@
 package Tutorial;
 
+import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +29,8 @@ public class BinaryTree<E extends Comparable<E>> implements Iterable<E> {
     public BinaryTree(){
 
     }
-
+    //best: No nodes present except smallest and largest, O(1)
+    //worst; O(n) has to traverse a linked list like thing from root to largest
     public E largest(){
         if(root == null) return null;
         TreeNode<E> temp = root;
@@ -58,10 +60,33 @@ public class BinaryTree<E extends Comparable<E>> implements Iterable<E> {
         }else{
             add(data, root);
         }
-
-
     }
 
+    private TreeNode<E> find(E data){
+        findRecursiveCounter=0;
+        TreeNode<E> found =  findRecursive(data, root);
+        System.out.println("Tree size is " + size +" counter is " + findRecursiveCounter);
+        return found;
+    }
+    int findRecursiveCounter = 0;
+
+    private TreeNode<E> findRecursive(E data, TreeNode<E > current){
+        findRecursiveCounter++;
+        if(current == null) return null;
+        if(current.getData().equals(data)) return current;
+        if(data.compareTo(current.getData()) > 0){
+            {
+                return findRecursive(data, current.left);
+            }
+        }else{
+            {
+                return findRecursive(data, current.right);
+            }
+        }
+    }
+
+    //Worst case: O(N) where tree is completely unbalanced and we add the largest or smallest element (in the direction of balance)
+    //Best case: O(1) where you add to one of the sides of the root that is null!
     private void add(E data, TreeNode<E> node){
         if(data.compareTo(node.getData()) > 0){
             if(node.getLeft() == null){
@@ -86,8 +111,12 @@ public class BinaryTree<E extends Comparable<E>> implements Iterable<E> {
      */
     public Stack<E> inOrder(){
         Stack<E> workingStack = new Stack<>();
-        return inOrder(root, workingStack);
+
+        workingStack = inOrder(root, workingStack);
+        return workingStack;
     }
+
+
 
     /**
      * We return the contents of the tree in reverse sort order!
@@ -104,6 +133,7 @@ public class BinaryTree<E extends Comparable<E>> implements Iterable<E> {
             inOrder(temp.getRight(),list);
         }
         list.push(temp.data);
+
         if(temp.getLeft() != null){
             inOrder(temp.getLeft(),list);
         }
@@ -153,7 +183,7 @@ public class BinaryTree<E extends Comparable<E>> implements Iterable<E> {
      * The node used for the binary tree
      * @param <E>
      */
-    class TreeNode<E>{
+    static class TreeNode<E>{
         private TreeNode<E> left;
         private TreeNode<E> right;
         private E data;
@@ -196,7 +226,7 @@ public class BinaryTree<E extends Comparable<E>> implements Iterable<E> {
             tree.add(pm);
             list.add(pm);
         }
-        list.sort(PocketMonster::compareTo);
+        /*list.sort(PocketMonster::compareTo);
         List<PocketMonster> treeTraversed = tree.inOrder();
         List<PocketMonster> treeReversed = tree.reverseOrder();
         if(treeTraversed.get(0) != treeReversed.get(treeReversed.size() - 1)) System.out.println("Reversed is not reversed!");
@@ -206,12 +236,22 @@ public class BinaryTree<E extends Comparable<E>> implements Iterable<E> {
                System.out.println("FAILED! Not in sort order at index " + i);
            }
             System.out.println(treeTraversed.get(i) + "        " + list.get(i));
-        }
+        }*/
 
-        for(PocketMonster pm : tree){
+        TreeNode<PocketMonster> MiddleOfList = tree.find(list.get(list.size()/2));
+
+    System.out.println(MiddleOfList);
+        /*for(PocketMonster pm : tree){
             System.out.println(pm);
-        }
+        }*/
     }
+
+    //A better way to find average case:
+    //Have a dataset that is long and random as heck
+    //Take note of how many times you recurse for size of tree (with a random element)
+    //Watch the numbers change as size ++
+    //Find the ratio between size and number of steps and then plot
+    //Average the above a lot from many runs
 
     public static void main(String args[]){
         testBinaryTree();
