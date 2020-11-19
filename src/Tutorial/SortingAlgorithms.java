@@ -208,38 +208,17 @@ public class SortingAlgorithms {
 
     @benchmark(name = "iterator", category = "Binary Tree")
     public static long testIterator(long input){
-        BinaryTree<String> bTree = new BinaryTree<>();
-        for(long i = 0; i <input; i++){
-            bTree.add(((char) rand.nextInt(400) + " Test " + i + " ---- " + " " + (char) rand.nextInt(400)));
-        }
-        long startTime = System.nanoTime();
-        for(String s : bTree){
-        }
-        long endTime = System.nanoTime();
-        return startTime-endTime;
+        return 0l;
     }
 
     @benchmark(name = "add node", category = "Binary Tree")
     public static long testAddNode(long input){
-        BinaryTree<String> bTree = new BinaryTree<>();
-        for(long i = 0; i <input; i++){
-            bTree.add(((char) rand.nextInt(5325323) + " Test " + i + " ---- " + " " + (char) rand.nextInt(400)));
-        }
-        String s = ((char) rand.nextInt(5325323) +""+ (char) rand.nextInt(400) +""+ (char) rand.nextInt(5325323) +""+ (char) rand.nextInt(5325323) +""+(char) rand.nextInt(5325323) +""+(char) rand.nextInt(5325323) +""+(char) rand.nextInt(5325323) +""+(char) rand.nextInt(5325323) +""+(char) rand.nextInt(5325323) +""+(char) rand.nextInt(5325323));
-        long startTime = System.nanoTime();
-        bTree.add(s);
-        long endTime = System.nanoTime();
-        return startTime-endTime;
+        return 0l;
     }
 
     @benchmark(name = "add node unbalanced", category = "Binary Tree")
     public static long testAddUnbalanced(long input){
-        BinaryTree<String> tree = buildUnbalancedTreeIncreasing(input);
-        String s=             (((char) input + 1 + " Test " + (char) input +1 + " ---- " + " " ));
-        long startTime = System.nanoTime();
-        tree.add(s);
-        long endTime = System.nanoTime();
-        return endTime - startTime;
+        return 0l;
     }
 
     private static BinaryTree<String> buildBalancedTree(long size){
